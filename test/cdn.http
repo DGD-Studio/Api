@@ -1,2 +1,2 @@
 GET http://localhost:8080/cdn/linus
-Authorization: THIS_IS_NOT_THE_REAL_AUTH_PASSWORD
+Authorization: CDN
