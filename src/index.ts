@@ -13,7 +13,6 @@ Util.objectContainsAll(
         'CACHE_EXPIRY_TIMEOUT_SECONDS',
         'CACHE_DIRECTORY',
         'AUTH',
-        'FILES_DIRECTORY'
     ],
     'Does not exists on process.env',
 );
@@ -21,13 +20,10 @@ Util.objectContainsAll(
 const {
     PORT = '8080',
     CACHE_DIRECTORY = 'cache',
-    FILES_DIRECTORY = 'files',
 } = process.env;
 
 if (!existsSync(`${process.cwd()}/${CACHE_DIRECTORY}`))
     mkdirSync(`${process.cwd()}/${CACHE_DIRECTORY}`);
-if (!existsSync(`${process.cwd()}/${FILES_DIRECTORY}`))
-    mkdirSync(`${process.cwd()}/${FILES_DIRECTORY}`)
 
 const app = express()
     .disable('x-powered-by')

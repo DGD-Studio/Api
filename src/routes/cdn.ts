@@ -17,15 +17,16 @@ CDNRouter.get('/:id', (req: Request, res: Response) => {
         res.contentType(cachedData.fileFomat)
         return res.status(200).send(Buffer.from(cachedData.fileData, 'binary'))
     } else {
-        const allFiles = readdirSync(`${process.cwd()}/${process.env.FILES_DIRECTORY}`)
+        const allFiles = readdirSync(`${process.cwd()}/${process.env.CACHE_DIRECTORY}`)
         if (!allFiles.some((fileName) => fileName.includes(fileId))) return res.status(404).json({
             msg: `File with the name: ${fileId} Not Found.`
         })
         const fileName = allFiles.find((v) => v.includes(fileId))
-        const fileData = readFileSync(`${process.cwd()}/${process.env.FILES_DIRECTORY}/${fileName}`)
+        const fileData = readFileSync(`${process.cwd()}/${process.env.CACHE_DIRECTORY}/${fileName}`)
         const fileFomat = fileName.replace(fileId, '')
         console.info(`Request for image: ${fileName} [NOT IN CACHE]`)
         cache.set(fileId, { fileData, fileFomat, fileName })
+        res.contentType(fileFomat)
         //@ts-ignore
         return res.status(200).send(Buffer.from(fileData, 'binary'))
     }
