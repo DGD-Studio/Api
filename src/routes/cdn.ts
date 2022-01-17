@@ -5,9 +5,9 @@ import { readFileSync, readdirSync } from "fs"
 const CDNRouter = Router()
 
 CDNRouter.get('/:id', (req: Request, res: Response) => {
-    if (!Util.isAuthorized(req)) return res.status(401).json({
+    /*if (!Util.isAuthorized(req)) return res.status(401).json({
         msg: "DGD Radio says your UnAuthorized"
-    })
+    })*/
 
     const fileId = req.params.id
     const cachedData: any = cache.get(fileId)
