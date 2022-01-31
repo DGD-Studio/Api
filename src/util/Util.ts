@@ -22,4 +22,19 @@ export class Util {
         else if (request.headers.authorization != process.env.AUTH) return false
         return true
     }
+
+    static checkEnv() {
+        return Util.objectContainsAll(
+            process.env,
+            [
+                'MODE',
+                'PORT',
+                'CACHE_EXPIRY_TIMEOUT_SECONDS',
+                'CACHE_DIRECTORY',
+                'AUTH',
+                'BOT_TOKEN'
+            ],
+            'Does not exists on process.env',
+        );
+    }
 }

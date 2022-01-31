@@ -1,33 +1,19 @@
-import express from "express"
-import { Util } from "./util"
-import { existsSync, mkdirSync } from "fs"
-import routes from "./routes"
+import { Util, logger } from "./util"
 import dotenv from "dotenv"
+import { startServer } from "./server/server"
+import { createWebsocketServer } from "./websocket/server"
+import { startBot } from "./bot/bot"
 dotenv.config()
+const log = logger({ name: "Main Process" })
 
-Util.objectContainsAll(
-    process.env,
-    [
-        'MODE',
-        'PORT',
-        'CACHE_EXPIRY_TIMEOUT_SECONDS',
-        'CACHE_DIRECTORY',
-        'AUTH',
-    ],
-    'Does not exists on process.env',
-);
+log.info(`Checking .env`)
+Util.checkEnv()
 
-const {
-    PORT = '8080',
-    CACHE_DIRECTORY = 'cache',
-} = process.env;
+log.info(`Starting WebServer`)
+const express = startServer()
 
-if (!existsSync(`${process.cwd()}/${CACHE_DIRECTORY}`))
-    mkdirSync(`${process.cwd()}/${CACHE_DIRECTORY}`);
+log.info(`Starting Websocket Server`)
+const _wss = createWebsocketServer(express)
 
-const app = express()
-    .disable('x-powered-by')
-    .use("/", routes)
-
-
-app.listen(PORT, () => console.info(`Server is Live`))
+log.info(`Starting DGD Manager`)
+const _bot = startBot()
