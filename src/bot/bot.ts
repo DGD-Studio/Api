@@ -1,5 +1,5 @@
-import { ManagerClient } from "./lib/ManagerClient";
+import { ManagerClient } from './lib/ManagerClient'
 
-export function startBot(){
-    return new ManagerClient().start()
+export function startBot() {
+	return new ManagerClient().start()
 }

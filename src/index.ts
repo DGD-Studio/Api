@@ -1,10 +1,10 @@
-import { Util, logger } from "./util"
-import dotenv from "dotenv"
-import { startServer } from "./server/server"
-import { createWebsocketServer } from "./websocket/server"
-import { startBot } from "./bot/bot"
+import { Util, logger } from './util'
+import dotenv from 'dotenv'
+import { startServer } from './server/server'
+import { createWebsocketServer } from './websocket/server'
+import { startBot } from './bot/bot'
 dotenv.config()
-const log = logger({ name: "Main Process" })
+const log = logger({ name: 'Main Process' })
 
 log.info(`Checking .env`)
 Util.checkEnv()
