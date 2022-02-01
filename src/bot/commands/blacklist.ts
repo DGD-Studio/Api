@@ -8,12 +8,24 @@ export default class extends BaseCommand {
 		super(data, client)
 	}
 	async execute(command: CommandInteraction<CacheType>): Promise<any> {
-		sendPayloadToClients({ event: 'AUCTION_START', staff: command.user.id })
+		const user = command.options.getUser('user')
+		if (user.bot) return command.followUp(`-_-`)
+		sendPayloadToClients({
+			event: 'BLACKLIST_USER',
+			id: user.id,
+			staff: command.user.id,
+		})
 		return command.followUp(`Done, wait for confirmation from Easter Boat`)
 	}
 }
 
 const data = new SlashCommandBuilder()
-	.setName('auction')
-	.setDescription('Start auction')
+	.setName('blacklists')
+	.setDescription('Blacklists a user')
+	.addUserOption((u) =>
+		u
+			.setName('user')
+			.setDescription('You have common sense right')
+			.setRequired(true)
+	)
 	.toJSON()

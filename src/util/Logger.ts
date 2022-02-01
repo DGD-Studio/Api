@@ -49,7 +49,7 @@ export function logger({
 
 		switch (level) {
 			case Loglevels.Debug:
-				return console.debug(...log)
+				return console.log(...log)
 			case Loglevels.Info:
 				return console.info(...log)
 			case Loglevels.Warn:
