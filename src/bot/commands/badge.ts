@@ -53,7 +53,10 @@ const data = new SlashCommandBuilder()
 				['Beta Tester', 'BETA_TESTER'],
 				['Bug Hunter', 'BUG_HUNTER'],
 				['Developer', 'DEVELOPER'],
-				['Before 100', 'BEFORE_100_SQUAD'],
+				['Before 100', 'BEFORE_100_SERVER_SQUAD'],
+				['Staff', 'STAFF'],
+				['BOT MANAGER', 'BOT_MANAGER'],
+				['Premium', 'PREMIUM_USER'],
 			])
 	)
 	.setDefaultPermission(false)
