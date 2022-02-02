@@ -50,22 +50,16 @@ export class ManagerClient extends Client {
 		this.log.info('Online')
 		const dgd = this.guilds.cache.get('924030936851574805')
 		await dgd.commands.fetch()
-		const ee = []
-		this.commands.forEach((cmd) => {
-			if (!dgd.commands.cache.some((app) => app.name === cmd.data.name))
-				ee.push(cmd.data)
+		const ee = this.commands.map((cmd) => cmd.data)
+		const data = await dgd.commands.set(ee)
+		data.forEach(async (cmd) => {
+			const c = this.commands.get(cmd.name)
+			if (c.perms)
+				await dgd.commands.permissions.set({
+					command: cmd,
+					permissions: c.perms,
+				})
 		})
-		if (ee.length) {
-			const data = await dgd.commands.set(ee)
-			data.forEach(async (cmd) => {
-				const c = this.commands.get(cmd.name)
-				if (c.perms)
-					await dgd.commands.permissions.set({
-						command: cmd,
-						permissions: c.perms,
-					})
-			})
-		}
 		return
 	}
 }
