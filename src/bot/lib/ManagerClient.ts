@@ -8,7 +8,7 @@ export class ManagerClient extends Client {
 	log: LoggerType
 	constructor() {
 		super({
-			intents: [GatewayIntentBits.GuildMembers, GatewayIntentBits.Guilds],
+			intents: [GatewayIntentBits.GuildMembers, GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
 			presence: {
 				status: 'dnd',
 				activities: [
@@ -50,6 +50,7 @@ export class ManagerClient extends Client {
 							permissions: c.perms,
 						})
 				})
+				message.reply("Done")
 				return
 			} else if(message.content === "=ping") {
 				message.reply(this.ws.ping.toString())
