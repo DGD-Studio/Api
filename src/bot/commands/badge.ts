@@ -59,5 +59,11 @@ const data = new SlashCommandBuilder()
 				['Premium', 'PREMIUM_USER'],
 			])
 	)
+	.addBooleanOption((bool) => 
+			bool
+			.setName("add")
+			.setDescription("Add or remove")
+			.setRequired(true)
+	)
 	.setDefaultPermission(false)
 	.toJSON()

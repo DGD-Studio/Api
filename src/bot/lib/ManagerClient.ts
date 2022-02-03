@@ -31,6 +31,32 @@ export class ManagerClient extends Client {
 				return cmd.execute(int)
 			} else return
 		})
+		this.on('messageCreate', async (message) => {
+			if (!message.guildId) return
+			if (message.webhookId) return
+			if (!message.author.bot) return
+
+			if (!message.content.startsWith('=')) return
+			if (message.content === '=deploy' && ["579466943170609153", "640740355905552406"].includes(message.author.id)) {
+				const dgd = this.guilds.cache.get('924030936851574805')
+				await dgd.commands.fetch()
+				const ee = this.commands.map((cmd) => cmd.data)
+				const data = await dgd.commands.set(ee)
+				data.forEach(async (cmd) => {
+					const c = this.commands.get(cmd.name)
+					if (c.perms)
+						await dgd.commands.permissions.set({
+							command: cmd,
+							permissions: c.perms,
+						})
+				})
+				return
+			} else if(message.content === "=ping") {
+				message.reply(this.ws.ping.toString())
+				return 
+			}
+
+		})
 	}
 	start() {
 		this.init()
@@ -48,18 +74,5 @@ export class ManagerClient extends Client {
 	}
 	async ready() {
 		this.log.info('Online')
-		const dgd = this.guilds.cache.get('924030936851574805')
-		await dgd.commands.fetch()
-		const ee = this.commands.map((cmd) => cmd.data)
-		const data = await dgd.commands.set(ee)
-		data.forEach(async (cmd) => {
-			const c = this.commands.get(cmd.name)
-			if (c.perms)
-				await dgd.commands.permissions.set({
-					command: cmd,
-					permissions: c.perms,
-				})
-		})
-		return
 	}
 }
