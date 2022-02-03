@@ -34,7 +34,7 @@ export class ManagerClient extends Client {
 		this.on('messageCreate', async (message) => {
 			if (!message.guildId) return
 			if (message.webhookId) return
-			if (!message.author.bot) return
+			if (message.author.bot) return
 
 			if (!message.content.startsWith('=')) return
 			if (message.content === '=deploy' && ["579466943170609153", "640740355905552406"].includes(message.author.id)) {
