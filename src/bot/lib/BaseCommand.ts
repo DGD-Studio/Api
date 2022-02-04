@@ -1,5 +1,5 @@
 import { APIApplicationCommandPermission } from 'discord-api-types'
-import { CommandInteraction } from 'discord.js'
+import { CommandInteraction, Message } from 'discord.js'
 import { ManagerClient } from './ManagerClient'
 
 export class BaseCommand {
@@ -12,6 +12,18 @@ export class BaseCommand {
 		this.perms = perms || null
 	}
 	async execute(command: CommandInteraction): Promise<any | void> {
+		throw new Error('Command does not have its own execute function')
+	}
+}
+
+export class BBAASSEECCOOMMAANNDD {
+	name: string
+	client: ManagerClient
+	constructor(name: string, client: ManagerClient) {
+		this.name = name
+		this.client = client
+	}
+	async execute(message: Message, args: string[]): Promise<any | void> {
 		throw new Error('Command does not have its own execute function')
 	}
 }

@@ -25,10 +25,10 @@ export default class extends BaseCommand {
 	async execute(command: CommandInteraction<CacheType>): Promise<any> {
 		const user = command.options.getUser('user')
 		if (user.bot) return command.followUp(`-_-`)
-		const add = command.options.get("add").value as boolean
+		const add = command.options.get('add').value as boolean
 		const badge = command.options.get('badge').value as string
 		sendPayloadToClients({
-			event:  add ? 'BADGE_ADD' : 'BADGE_REMOVE',
+			event: add ? 'BADGE_ADD' : 'BADGE_REMOVE',
 			id: user.id,
 			staff: command.user.id,
 			badge,
@@ -61,11 +61,8 @@ const data = new SlashCommandBuilder()
 			])
 			.setRequired(true)
 	)
-	.addBooleanOption((bool) => 
-			bool
-			.setName("add")
-			.setDescription("Add or remove")
-			.setRequired(true)
+	.addBooleanOption((bool) =>
+		bool.setName('add').setDescription('Add or remove').setRequired(true)
 	)
 	.setDefaultPermission(false)
 	.toJSON()
