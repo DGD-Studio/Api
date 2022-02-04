@@ -18,7 +18,7 @@ const _wss = createWebsocketServer(express)
 log.info(`Starting DGD Manager`)
 const _bot = startBot()
 
-process.on('SIGINT', async () => {
+/*process.on('SIGINT', async () => {
 	if (process.env.MODE === 'dev')
 		_bot.guilds.cache.get('924030936851574805').commands.set([])
-})
+}) */
