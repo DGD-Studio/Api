@@ -20,7 +20,7 @@ async function main() {
 	log.info(`Starting DGD Manager`)
 	const bot = startBot()
 
-	return { express, wss, bot }
+	return { express, wss, /*bot*/ }
 }
 
 /*process.on('SIGINT', async () => {
