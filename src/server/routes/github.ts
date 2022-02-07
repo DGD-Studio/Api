@@ -11,7 +11,7 @@ githubRouter.post('/hook', (req: Request, res: Response) => {
 	if (data.repository.name != 'Easter-Boat')
 		return res.status(200).send({ status: 200 })
 	const branch = (data.ref as string).split('/')[2]
-	if (!branch || ['main', 'dev', 'semi-rewrite'].includes(branch)) {
+	if (!branch || !['main', 'dev', 'semi-rewrite'].includes(branch)) {
 		// we dont care
 		return res.status(200).send({ status: 200 })
 	}
