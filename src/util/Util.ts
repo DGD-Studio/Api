@@ -31,6 +31,7 @@ export class Util {
 				'CACHE_DIRECTORY',
 				'AUTH',
 				'BOT_TOKEN',
+				'REDIS_URL'
 			],
 			'Does not exists on process.env'
 		)

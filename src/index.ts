@@ -1,10 +1,11 @@
 import { Util, logger } from './util'
 import dotenv from 'dotenv'
+dotenv.config()
 import { startServer } from './server/server'
 import { createWebsocketServer } from './websocket/server'
 import { startBot } from './bot/bot'
 import { connectDatabase } from './util/database'
-dotenv.config()
+
 const log = logger({ name: 'Main Process' })
 
 log.info(`Checking .env`)
