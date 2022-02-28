@@ -25,6 +25,7 @@ export function createIPCServer() {
 		handleDisconnect(connection, reason, log)
 	)
 	ipc.on('ready', (addr) => log.info(`Server is online on ${addr}`))
+	return ipc.start()
 }
 
 export interface Payload {
