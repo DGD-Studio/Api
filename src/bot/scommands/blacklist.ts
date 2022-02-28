@@ -19,6 +19,7 @@ export default class extends BaseCommand {
 			{
 				// @ts-ignore
 				id: '927630083835986001',
+				// @ts-ignore
 				type: ApplicationCommandPermissionType.Role,
 				permission: true,
 			},
