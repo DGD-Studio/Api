@@ -1,45 +1,40 @@
-import { IncomingMessage } from 'http'
-import queryString from 'query-string'
-import WebSocket from 'ws'
+import { Connection } from 'net-ipc'
 import { LoggerType } from '../../util'
-import { handleMessage } from './message'
-
-const connectedClients: Set<WebSocket> = new Set()
+import { ConnectPayload, connectedClients, Payload } from '../server'
 
 export function handleConnection(
-	socket: WebSocket,
-	request: IncomingMessage,
+	connection: Connection,
+	payload: ConnectPayload,
 	log: LoggerType
 ) {
 	log.info(`New Connection`)
 
-	const [_path, params] = request?.url?.split('?')
-	const connectionParams = queryString.parse(params)
+	if (!payload) return connection.close()
+	else if (!payload.auth || payload.auth != process.env.PAYLOAD_AUTH_KEY)
+		return connection.close()
+	// HARD CODE CUZ LAZY
+	else if (
+		!payload.agent ||
+		![
+			'mrpoll',
+			'mrpoll:beta',
+			'eboat',
+			'mrpoll:gateway',
+			'mrpoll:beta:gateway',
+		].includes(payload.agent)
+	)
+		return connection.close()
 
-	if (
-		!connectionParams.auth ||
-		connectionParams.auth != process.env.CONNECTION_STRING_KEY
-	) {
-		log.info(`Client sent no or an invalid Auth Param, Disconnecting`)
-		return socket.close(1069)
-	}
-	log.info(`Client is Authorized`)
-	connectedClients.add(socket)
-
-	socket.on('ping', () => socket.pong())
-	socket.on('pong', () => socket.ping())
-	socket.on('message', (data) => handleMessage(socket, data, log))
-	socket.on('close', (code) => {
-		log.info(`Connection with a Client was closed with code ${code}`)
-		return connectedClients.delete(socket)
-	})
-
-	return
+	return connectedClients.set(payload.agent, { payload, connection })
 }
 
-export function sendPayloadToClients(data: any) {
+export function sendPayloadToClients(data: SendPayload) {
 	return connectedClients.forEach((socket) => {
-		if (socket.readyState === WebSocket.OPEN)
-			socket.send(JSON.stringify(data))
+		socket.connection.send(data)
 	})
+}
+
+interface SendPayload {
+	type: string
+	data: any
 }

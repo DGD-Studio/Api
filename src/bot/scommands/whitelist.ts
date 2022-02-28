@@ -26,9 +26,11 @@ export default class extends BaseCommand {
 		const user = command.options.getUser('user')
 		if (user.bot) return command.followUp(`-_-`)
 		sendPayloadToClients({
-			event: 'WHITELIST_USER',
-			id: user.id,
-			staff: command.user.id,
+			type: 'WHITELIST_USER',
+			data: {
+				id: user.id,
+				staff: command.user.id,
+			},
 		})
 		return command.followUp(`Done, wait for confirmation from Easter Boat`)
 	}

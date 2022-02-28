@@ -28,10 +28,12 @@ export default class extends BaseCommand {
 		const add = command.options.get('add').value as boolean
 		const badge = command.options.get('badge').value as string
 		sendPayloadToClients({
-			event: add ? 'BADGE_ADD' : 'BADGE_REMOVE',
-			id: user.id,
-			staff: command.user.id,
-			badge,
+			type: add ? 'BADGE_ADD' : 'BADGE_REMOVE',
+			data: {
+				id: user.id,
+				staff: command.user.id,
+				badge,
+			},
 		})
 		return command.followUp(`Done, wait for confirmation from Easter Boat`)
 	}

@@ -2,26 +2,26 @@ import { Util, logger } from './util'
 import dotenv from 'dotenv'
 dotenv.config()
 import { startServer } from './server/server'
-import { createWebsocketServer } from './websocket/server'
 import { startBot } from './bot/bot'
 import { connectDatabase } from './util/database'
+import { createIPCServer } from './websocket/server'
 
 const log = logger({ name: 'Main Process' })
 
 log.info(`Checking .env`)
 Util.checkEnv()
 
-async function main() {
+function main() {
 	log.info(`Starting WebServer`)
 	const express = startServer()
 
-	log.info(`Starting Websocket Server`)
-	const wss = createWebsocketServer(express)
+	log.info(`Starting Ipc Server`)
+	const ipc = createIPCServer()
 
 	log.info(`Starting DGD Manager`)
 	const bot = startBot()
 
-	return { express, wss, bot }
+	return { express, ipc, bot }
 }
 
 /*process.on('SIGINT', async () => {

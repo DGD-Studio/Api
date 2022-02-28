@@ -17,8 +17,8 @@ githubRouter.post('/hook', (req: Request, res: Response) => {
 		return res.status(200).send({ status: 200 })
 	}
 
-	//sendPayloadToClients({ event: 'DEPLOY', bot: branch })
-	redis.publish("Boat", JSON.stringify({ event: 'DEPLOY', bot: branch }))
+	sendPayloadToClients({ type: 'DEPLOY', data: { branch } })
+	redis.publish('Boat', JSON.stringify({ event: 'DEPLOY', bot: branch }))
 
 	return res.status(200).send({ status: 200 })
 })

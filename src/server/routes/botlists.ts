@@ -1,4 +1,5 @@
 import { Response, Router, Request } from 'express'
+import { nanoid } from 'nanoid'
 import { redis } from '../../util/redis'
 import { sendPayloadToClients } from '../../websocket/handlers/connection'
 
@@ -9,8 +10,11 @@ botlistsRouter.post('/ibl', (req: Request, res: Response) => {
 		return res.status(401).json({ message: 'Not Authorized', status: 401 })
 	}
 
-	sendPayloadToClients({ event: 'NEW_VOTE', type: 'IBL', data: req.body })
-	redis.publish("Boat", JSON.stringify({ event: 'NEW_VOTE', type: 'IBL', data: req.body  }))
+	sendPayloadToClients({ type: 'VOTE', data: { type: 'IBL', ...req.body } })
+	redis.publish(
+		'Boat',
+		JSON.stringify({ event: 'NEW_VOTE', type: 'IBL', data: req.body })
+	)
 
 	return res.status(200).send({ message: 'Success', status: 200 })
 })

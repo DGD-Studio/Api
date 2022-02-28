@@ -1,19 +1,42 @@
-import { WebSocketServer } from 'ws'
 import { logger } from '../util'
-import { Server } from 'http'
 import { handleConnection } from './handlers/connection'
+import { Server as IPCServer, Connection } from 'net-ipc'
+import { handleMessage } from './handlers/message'
+import { handleDisconnect } from './handlers/disconnect'
+
 const log = logger({ name: 'WebSocket Manager' })
-export function createWebsocketServer(server: Server) {
-	const wss = new WebSocketServer({
-		server,
-		path: '/gateway',
+export const payloadQueue: Map<string, Payload> = new Map()
+export const connectedClients: Map<
+	String,
+	{ connection: Connection; payload: ConnectPayload }
+> = new Map()
+export function createIPCServer() {
+	const ipc = new IPCServer({
+		port: 4204,
 	})
 
-	wss.on('connection', (socket, request) =>
-		handleConnection(socket, request, log)
+	ipc.on('connect', (connection, payload) =>
+		handleConnection(connection, payload, log)
 	)
-	wss.on('listening', () => log.info(`WebSocket Manager is live`))
-	wss.on('close', () => log.warn(`Connection was closed`))
+	ipc.on('message', (message, connection) =>
+		handleMessage(message, connection, log)
+	)
+	ipc.on('disconnect', (connection, reason) =>
+		handleDisconnect(connection, reason, log)
+	)
+	ipc.on('ready', (addr) => log.info(`Server is online on ${addr}`))
+}
 
-	return wss
+export interface Payload {
+	auth: string
+	type: 'payload' | 'payload_resolved' | 'vote' | 'deploy'
+	requestFor: 'mrpoll' | 'mrpoll:beta'
+	requestType: 'send' | 'request'
+	id: string
+	data: any
+}
+
+export interface ConnectPayload {
+	auth: string
+	agent: string
 }

@@ -23,7 +23,10 @@ export default class extends BaseCommand {
 		])
 	}
 	async execute(command: CommandInteraction<CacheType>): Promise<any> {
-		sendPayloadToClients({ event: 'AUCTION_START', staff: command.user.id })
+		sendPayloadToClients({
+			type: 'AUCTION',
+			data: { staff: command.user.id },
+		})
 		return command.followUp(`Done, wait for confirmation from Easter Boat`)
 	}
 }
