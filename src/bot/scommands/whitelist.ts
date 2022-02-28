@@ -12,10 +12,12 @@ export default class extends BaseCommand {
 		super(data, client, [
 			{
 				id: '938408515750473779',
+				// @ts-ignore
 				type: ApplicationCommandPermissionType.Role,
 				permission: true,
 			},
 			{
+				// @ts-ignore
 				id: '927630083835986001',
 				type: ApplicationCommandPermissionType.Role,
 				permission: true,

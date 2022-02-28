@@ -19,6 +19,7 @@ export default class extends BBAASSEECCOOMMAANNDD {
 		data.forEach(async (cmd) => {
 			const c = this.client.scommands.get(cmd.name)
 			if (c.perms)
+				// @ts-ignore
 				await dgd.commands.permissions.set({
 					command: cmd,
 					permissions: c.perms,
