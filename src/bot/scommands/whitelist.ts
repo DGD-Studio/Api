@@ -4,6 +4,7 @@ import {
 	CacheType,
 	ApplicationCommandPermissionType,
 } from 'discord.js'
+import { sendToIpc } from '../../server/server'
 import { sendPayloadToClients } from '../../websocket/handlers/connection'
 import { BaseCommand } from '../lib/BaseCommand'
 
@@ -28,12 +29,13 @@ export default class extends BaseCommand {
 	async execute(command: CommandInteraction<CacheType>): Promise<any> {
 		const user = command.options.getUser('user')
 		if (user.bot) return command.followUp(`-_-`)
-		sendPayloadToClients({
+		sendToIpc({
 			type: 'WHITELIST_USER',
 			data: {
 				id: user.id,
 				staff: command.user.id,
 			},
+			requestFor: 'eboat',
 		})
 		return command.followUp(`Done, wait for confirmation from Easter Boat`)
 	}

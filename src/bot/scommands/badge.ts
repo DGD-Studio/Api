@@ -4,6 +4,7 @@ import {
 	CacheType,
 	ApplicationCommandPermissionType,
 } from 'discord.js'
+import { sendToIpc } from '../../server/server'
 import { sendPayloadToClients } from '../../websocket/handlers/connection'
 import { BaseCommand } from '../lib/BaseCommand'
 
@@ -30,13 +31,14 @@ export default class extends BaseCommand {
 		if (user.bot) return command.followUp(`-_-`)
 		const add = command.options.get('add').value as boolean
 		const badge = command.options.get('badge').value as string
-		sendPayloadToClients({
+		sendToIpc({
 			type: add ? 'BADGE_ADD' : 'BADGE_REMOVE',
 			data: {
 				id: user.id,
 				staff: command.user.id,
 				badge,
 			},
+			requestFor: 'eboat',
 		})
 		return command.followUp(`Done, wait for confirmation from Easter Boat`)
 	}

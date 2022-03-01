@@ -11,7 +11,7 @@ export function handleConnection(
 
 	if (!payload) return connection.close()
 	else if (!payload.auth || payload.auth != process.env.PAYLOAD_AUTH_KEY)
-		return connection.close()
+		return connection.close('No or Invalid Auth')
 	// HARD CODE CUZ LAZY
 	else if (
 		!payload.agent ||
@@ -19,11 +19,14 @@ export function handleConnection(
 			'mrpoll',
 			'mrpoll:beta',
 			'eboat',
+			'eboat:beta',
+			'eboat:dev',
 			'mrpoll:gateway',
 			'mrpoll:beta:gateway',
+			'api',
 		].includes(payload.agent)
 	)
-		return connection.close()
+		return connection.close('Invalid Agent')
 
 	return connectedClients.set(payload.agent, { payload, connection })
 }

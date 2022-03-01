@@ -8,6 +8,7 @@
 		"build": "tsc --build",
 		"prestart": "npm run build",
 		"start": "node .",
+		"start:ipc": "node build/other.js",
 		"lint": "npx prettier --write .",
 		"lint:check": "npx prettier --check ."
 	},

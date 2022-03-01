@@ -15,13 +15,13 @@ function main() {
 	log.info(`Starting WebServer`)
 	const express = startServer()
 
-	log.info(`Starting Ipc Server`)
-	const ipc = createIPCServer()
+	/*log.info(`Starting Ipc Server`)
+	const ipc = createIPCServer()*/
 
 	log.info(`Starting DGD Manager`)
 	const bot = startBot()
 
-	return { express, ipc, bot }
+	return { express, bot }
 }
 
 /*process.on('SIGINT', async () => {

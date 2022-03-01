@@ -19,7 +19,7 @@ export function createIPCServer() {
 		handleConnection(connection, payload, log)
 	)
 	ipc.on('message', (message, connection) =>
-		handleMessage(message, connection, log)
+		handleMessage(message, connection, log, ipc)
 	)
 	ipc.on('disconnect', (connection, reason) =>
 		handleDisconnect(connection, reason, log)
@@ -31,7 +31,7 @@ export function createIPCServer() {
 export interface Payload {
 	auth: string
 	type: 'payload' | 'payload_resolved' | 'vote' | 'deploy'
-	requestFor: 'mrpoll' | 'mrpoll:beta'
+	requestFor: 'mrpoll' | 'mrpoll:beta' | 'eboat'
 	requestType: 'send' | 'request'
 	id: string
 	data: any
