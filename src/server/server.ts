@@ -16,7 +16,7 @@ const app = express()
 	.use('/', routes)
 const ipcClient = new Client({
 	port: 4204,
-	host: 'localhost',
+	host: process.env.IPC_URL,
 	reconnect: true,
 })
 const Queue = new Set()
